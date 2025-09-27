@@ -3,7 +3,7 @@ import os
 import glob
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-from datetime import datetime
+from datetime import datetime, date
 import numpy as np
 
 
@@ -33,7 +33,35 @@ def calculate_price_volatility(prices):
     return volatility_percentage
 
 
-def plot_individual_bullet_prices():
+def calculate_exact_price_volatility(prices):
+    """计算价格波动(精确)指标：最高价格与最低价格的比例值-1"""
+    if len(prices) == 0:
+        return 0
+
+    max_price = max(prices)
+    min_price = min(prices)
+
+    # 计算比例值-1，转换为百分比
+    if min_price > 0:
+        volatility_ratio = (max_price / min_price) - 1
+        volatility_percentage = volatility_ratio * 100
+    else:
+        volatility_percentage = 0
+
+    return volatility_percentage
+
+
+def filter_data_by_date(price_history, target_date):
+    """根据日期筛选数据"""
+    filtered_history = []
+    for entry in price_history:
+        entry_datetime = datetime.fromisoformat(entry["timestamp"])
+        if entry_datetime.date() == target_date:
+            filtered_history.append(entry)
+    return filtered_history
+
+
+def plot_individual_bullet_prices(target_date=None):
     """绘制每个子弹的详细价格图表"""
     # 设置中文字体
     plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'DejaVu Sans']
@@ -48,10 +76,17 @@ def plot_individual_bullet_prices():
 
     print(f"找到 {len(bullet_files)} 个子弹数据文件")
 
-    # 创建图表输出文件夹
-    output_dir = "price_charts"
+    # 创建图表输出文件夹结构
+    base_output_dir = "price_charts"
+    if target_date:
+        date_str = target_date.strftime("%Y-%m-%d")
+        chart_type_dir = "单日子弹价格波动"
+        output_dir = os.path.join(base_output_dir, date_str, chart_type_dir)
+    else:
+        output_dir = os.path.join(base_output_dir, "所有日期", "单日子弹价格波动")
+
     if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+        os.makedirs(output_dir, exist_ok=True)
 
     # 创建单个子弹的详细图表
     print("创建单个子弹的详细图表...")
@@ -64,6 +99,10 @@ def plot_individual_bullet_prices():
             level = data["basic_info"]["level"]
             price_history = data["price_history"]
 
+            # 根据日期筛选数据
+            if target_date and price_history:
+                price_history = filter_data_by_date(price_history, target_date)
+
             if price_history:
                 # 创建单个子弹的图表
                 plt.figure(figsize=(12, 6))
@@ -74,7 +113,13 @@ def plot_individual_bullet_prices():
                 plt.plot(timestamps, prices, linewidth=2, marker='o', markersize=3,
                          color='blue', label=bullet_name)
 
-                plt.title(f'{bullet_name} 价格走势 (等级{level})')
+                # 添加日期信息到标题
+                if target_date:
+                    title_date = target_date.strftime("%Y-%m-%d")
+                    plt.title(f'{bullet_name} 价格走势 (等级{level}) - {title_date}')
+                else:
+                    plt.title(f'{bullet_name} 价格走势 (等级{level})')
+
                 plt.xlabel('时间')
                 plt.ylabel('价格')
                 plt.legend()
@@ -90,8 +135,9 @@ def plot_individual_bullet_prices():
 
                 # 计算价格波动指标
                 volatility_percentage = calculate_price_volatility(prices)
+                exact_volatility_percentage = calculate_exact_price_volatility(prices)
 
-                stats_text = f'最低价: {min_price}\n最高价: {max_price}\n平均价: {avg_price:.0f}\n价格范围: {price_range}\n价格波动: {volatility_percentage:.1f}%'
+                stats_text = f'最低价: {min_price}\n最高价: {max_price}\n平均价: {avg_price:.0f}\n价格范围: {price_range}\n价格波动: {volatility_percentage:.1f}%\n价格波动(精确): {exact_volatility_percentage:.1f}%'
                 plt.figtext(0.98, 0.98, stats_text, fontsize=10,
                             bbox=dict(boxstyle="round,pad=0.3", facecolor="lightgray"),
                             horizontalalignment='right', verticalalignment='top')
@@ -100,10 +146,21 @@ def plot_individual_bullet_prices():
 
                 # 保存单个子弹图表
                 safe_bullet_name = bullet_name.replace("/", "_").replace("\\", "_").replace(":", "_")
-                single_chart_filename = os.path.join(output_dir, f"{safe_bullet_name}_价格走势.png")
+                if target_date:
+                    single_chart_filename = os.path.join(output_dir,
+                                                         f"{safe_bullet_name}_价格走势_{target_date.strftime('%Y%m%d')}.png")
+                else:
+                    single_chart_filename = os.path.join(output_dir, f"{safe_bullet_name}_价格走势.png")
+
                 plt.savefig(single_chart_filename, dpi=300, bbox_inches='tight')
                 plt.close()
-                print(f"已创建图表: {safe_bullet_name}_价格走势.png (波动率: {volatility_percentage:.1f}%)")
+
+                if target_date:
+                    print(
+                        f"已创建图表: {safe_bullet_name}_价格走势_{target_date.strftime('%Y%m%d')}.png (波动率: {volatility_percentage:.1f}%, 精确波动率: {exact_volatility_percentage:.1f}%)")
+                else:
+                    print(
+                        f"已创建图表: {safe_bullet_name}_价格走势.png (波动率: {volatility_percentage:.1f}%, 精确波动率: {exact_volatility_percentage:.1f}%)")
 
         except Exception as e:
             print(f"处理文件 {file_path} 时出错: {e}")
@@ -111,7 +168,7 @@ def plot_individual_bullet_prices():
     print(f"\n所有单个子弹图表已保存到 {output_dir} 文件夹")
 
 
-def plot_all_bullets_together():
+def plot_all_bullets_together(target_date=None):
     """绘制所有子弹在一个图表中（按等级分组）"""
     # 设置中文字体
     plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'DejaVu Sans']
@@ -123,6 +180,18 @@ def plot_all_bullets_together():
     if not bullet_files:
         print("在bullet_data文件夹中没有找到任何子弹数据文件")
         return
+
+    # 创建图表输出文件夹结构
+    base_output_dir = "price_charts"
+    if target_date:
+        date_str = target_date.strftime("%Y-%m-%d")
+        chart_type_dir = "综合图表"
+        output_dir = os.path.join(base_output_dir, date_str, chart_type_dir)
+    else:
+        output_dir = os.path.join(base_output_dir, "所有日期", "综合图表")
+
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir, exist_ok=True)
 
     # 按等级分组
     level_3_data = []
@@ -137,6 +206,10 @@ def plot_all_bullets_together():
             bullet_name = data["basic_info"]["name"]
             level = data["basic_info"]["level"]
             price_history = data["price_history"]
+
+            # 根据日期筛选数据
+            if target_date and price_history:
+                price_history = filter_data_by_date(price_history, target_date)
 
             if price_history:
                 timestamps = [datetime.fromisoformat(entry["timestamp"]) for entry in price_history]
@@ -160,7 +233,13 @@ def plot_all_bullets_together():
 
     # 创建综合图表
     fig, axes = plt.subplots(3, 1, figsize=(16, 15))
-    fig.suptitle('所有子弹价格走势图（按等级分组）', fontsize=16, fontweight='bold')
+
+    # 添加日期信息到标题
+    if target_date:
+        title_date = target_date.strftime("%Y-%m-%d")
+        fig.suptitle(f'所有子弹价格走势图（按等级分组） - {title_date}', fontsize=16, fontweight='bold')
+    else:
+        fig.suptitle('所有子弹价格走势图（按等级分组）', fontsize=16, fontweight='bold')
 
     # 等级3子弹
     ax1 = axes[0]
@@ -202,24 +281,86 @@ def plot_all_bullets_together():
     plt.tight_layout()
 
     # 保存综合图表
-    output_dir = "price_charts"
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+    if target_date:
+        plt.savefig(os.path.join(output_dir, f"所有子弹价格走势_{target_date.strftime('%Y%m%d')}.png"), dpi=300,
+                    bbox_inches='tight')
+    else:
+        plt.savefig(os.path.join(output_dir, "所有子弹价格走势.png"), dpi=300, bbox_inches='tight')
 
-    plt.savefig(os.path.join(output_dir, "所有子弹价格走势.png"), dpi=300, bbox_inches='tight')
     plt.close()
 
     print("综合图表已创建")
 
 
-if __name__ == "__main__":
+def get_available_dates():
+    """获取所有可用的日期"""
+    bullet_files = glob.glob("bullet_data/*.json")
+    dates_set = set()
+
+    for file_path in bullet_files:
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+
+            price_history = data["price_history"]
+            for entry in price_history:
+                entry_datetime = datetime.fromisoformat(entry["timestamp"])
+                dates_set.add(entry_datetime.date())
+        except Exception as e:
+            print(f"读取文件 {file_path} 时出错: {e}")
+
+    return sorted(list(dates_set))
+
+
+def generate_charts_for_date(target_date=None):
+    """为指定日期生成所有图表（适合自动化调用）"""
     print("开始生成子弹价格图表...")
 
-    # 生成单个子弹的详细图表
-    plot_individual_bullet_prices()
+    if target_date:
+        print(f"生成 {target_date.strftime('%Y-%m-%d')} 的图表...")
+        plot_individual_bullet_prices(target_date)
+        plot_all_bullets_together(target_date)
+    else:
+        # 生成所有可用日期的图表，每个日期单独创建文件夹
+        available_dates = get_available_dates()
+        print(f"为 {len(available_dates)} 个可用日期生成图表...")
 
-    # 生成综合图表
-    plot_all_bullets_together()
+        for date_obj in available_dates:
+            print(f"\n生成 {date_obj.strftime('%Y-%m-%d')} 的图表...")
+            plot_individual_bullet_prices(date_obj)
+            plot_all_bullets_together(date_obj)
 
     print("\n图表生成完成！")
     print("请查看 price_charts 文件夹中的图表文件")
+
+
+def main():
+    """主函数，提供简单的命令行接口（可选）"""
+    available_dates = get_available_dates()
+
+    if not available_dates:
+        print("没有找到任何可用的数据日期")
+        return
+
+    print(f"可用的日期: {[d.strftime('%Y-%m-%d') for d in available_dates]}")
+
+    # 简单的命令行参数处理
+    import sys
+    if len(sys.argv) > 1:
+        # 使用命令行参数指定日期
+        date_str = sys.argv[1]
+        try:
+            target_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+            if target_date in available_dates:
+                generate_charts_for_date(target_date)
+            else:
+                print(f"日期 {date_str} 没有可用数据")
+        except ValueError:
+            print("日期格式错误，请使用 YYYY-MM-DD 格式")
+    else:
+        # 默认生成所有日期的图表
+        generate_charts_for_date()
+
+
+if __name__ == "__main__":
+    main()

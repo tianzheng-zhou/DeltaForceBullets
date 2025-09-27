@@ -68,7 +68,7 @@ def plot_individual_bullet_prices(target_date=None):
     plt.rcParams['axes.unicode_minus'] = False
 
     # 获取所有子弹数据文件
-    bullet_files = glob.glob("bullet_data/*.json")
+    bullet_files = glob.glob("../bullet_data/*.json")
 
     if not bullet_files:
         print("在bullet_data文件夹中没有找到任何子弹数据文件")
@@ -77,7 +77,7 @@ def plot_individual_bullet_prices(target_date=None):
     print(f"找到 {len(bullet_files)} 个子弹数据文件")
 
     # 创建图表输出文件夹结构
-    base_output_dir = "price_charts"
+    base_output_dir = "../price_charts"
     if target_date:
         date_str = target_date.strftime("%Y-%m-%d")
         chart_type_dir = "单日子弹价格波动"
@@ -127,7 +127,7 @@ def plot_individual_bullet_prices(target_date=None):
                 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
                 plt.gca().xaxis.set_major_locator(mdates.HourLocator(interval=2))
 
-                # 添加统计信息（移动到右上角）
+                # 添加统计信息（移动到右上角，调整位置避免遮挡）
                 min_price = min(prices)
                 max_price = max(prices)
                 avg_price = np.mean(prices)
@@ -138,8 +138,9 @@ def plot_individual_bullet_prices(target_date=None):
                 exact_volatility_percentage = calculate_exact_price_volatility(prices)
 
                 stats_text = f'最低价: {min_price}\n最高价: {max_price}\n平均价: {avg_price:.0f}\n价格范围: {price_range}\n价格波动: {volatility_percentage:.1f}%\n价格波动(精确): {exact_volatility_percentage:.1f}%'
-                plt.figtext(0.98, 0.98, stats_text, fontsize=10,
-                            bbox=dict(boxstyle="round,pad=0.3", facecolor="lightgray"),
+                # 修改位置：移动到右上角但稍微向下和向左偏移，避免遮挡图表
+                plt.figtext(0.95, 0.85, stats_text, fontsize=9,
+                            bbox=dict(boxstyle="round,pad=0.3", facecolor="lightgray", alpha=0.8),
                             horizontalalignment='right', verticalalignment='top')
 
                 plt.tight_layout()
@@ -182,7 +183,7 @@ def plot_all_bullets_together(target_date=None):
         return
 
     # 创建图表输出文件夹结构
-    base_output_dir = "price_charts"
+    base_output_dir = "../price_charts"
     if target_date:
         date_str = target_date.strftime("%Y-%m-%d")
         chart_type_dir = "综合图表"
@@ -294,7 +295,7 @@ def plot_all_bullets_together(target_date=None):
 
 def get_available_dates():
     """获取所有可用的日期"""
-    bullet_files = glob.glob("bullet_data/*.json")
+    bullet_files = glob.glob("../bullet_data/*.json")
     dates_set = set()
 
     for file_path in bullet_files:
@@ -334,8 +335,8 @@ def generate_charts_for_date(target_date=None):
     print("请查看 price_charts 文件夹中的图表文件")
 
 
-def main():
-    """主函数，提供简单的命令行接口（可选）"""
+def main(target_date=None):
+    """主函数，接受参数传入而不是命令行接口"""
     available_dates = get_available_dates()
 
     if not available_dates:
@@ -344,23 +345,27 @@ def main():
 
     print(f"可用的日期: {[d.strftime('%Y-%m-%d') for d in available_dates]}")
 
-    # 简单的命令行参数处理
-    import sys
-    if len(sys.argv) > 1:
-        # 使用命令行参数指定日期
-        date_str = sys.argv[1]
-        try:
-            target_date = datetime.strptime(date_str, "%Y-%m-%d").date()
-            if target_date in available_dates:
-                generate_charts_for_date(target_date)
-            else:
-                print(f"日期 {date_str} 没有可用数据")
-        except ValueError:
-            print("日期格式错误，请使用 YYYY-MM-DD 格式")
+    if target_date:
+        # 如果传入的是字符串，转换为日期对象
+        if isinstance(target_date, str):
+            try:
+                target_date = datetime.strptime(target_date, "%Y-%m-%d").date()
+            except ValueError:
+                print("日期格式错误，请使用 YYYY-MM-DD 格式")
+                return
+
+        # 检查日期是否可用
+        if target_date in available_dates:
+            generate_charts_for_date(target_date)
+        else:
+            print(f"日期 {target_date} 没有可用数据")
     else:
         # 默认生成所有日期的图表
         generate_charts_for_date()
 
 
 if __name__ == "__main__":
-    main()
+
+    main(date.today())
+
+    # main()

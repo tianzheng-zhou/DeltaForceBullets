@@ -195,5 +195,5 @@ if __name__ == "__main__":
         filepath="price.json",
         output_dir="price_history",
         start_date="2025-09-25",
-        end_date="2025-09-26"
+        end_date="2025-09-27"
     )

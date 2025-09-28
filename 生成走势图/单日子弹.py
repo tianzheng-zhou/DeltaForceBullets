@@ -67,8 +67,12 @@ def plot_individual_bullet_prices(target_date=None):
     plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'DejaVu Sans']
     plt.rcParams['axes.unicode_minus'] = False
 
-    # 获取所有子弹数据文件
-    bullet_files = glob.glob("../bullet_data/*.json")
+    # 获取所有子弹数据文件 - 修复文件搜索问题
+    bullet_data_dir = "../bullet_data"
+    # 使用os.listdir获取所有文件，然后筛选JSON文件
+    all_files = os.listdir(bullet_data_dir)
+    bullet_files = [os.path.join(bullet_data_dir, f) for f in all_files
+                   if f.endswith('.json') and os.path.isfile(os.path.join(bullet_data_dir, f))]
 
     if not bullet_files:
         print("在bullet_data文件夹中没有找到任何子弹数据文件")
@@ -143,8 +147,6 @@ def plot_individual_bullet_prices(target_date=None):
                             bbox=dict(boxstyle="round,pad=0.3", facecolor="lightgray", alpha=0.8),
                             horizontalalignment='right', verticalalignment='top')
 
-                plt.tight_layout()
-
                 # 保存单个子弹图表
                 safe_bullet_name = bullet_name.replace("/", "_").replace("\\", "_").replace(":", "_")
                 if target_date:
@@ -162,7 +164,6 @@ def plot_individual_bullet_prices(target_date=None):
                 else:
                     print(
                         f"已创建图表: {safe_bullet_name}_价格走势.png (波动率: {volatility_percentage:.1f}%, 精确波动率: {exact_volatility_percentage:.1f}%)")
-
         except Exception as e:
             print(f"处理文件 {file_path} 时出错: {e}")
 
@@ -175,8 +176,12 @@ def plot_all_bullets_together(target_date=None):
     plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'DejaVu Sans']
     plt.rcParams['axes.unicode_minus'] = False
 
-    # 获取所有子弹数据文件
-    bullet_files = glob.glob("bullet_data/*.json")
+    # 获取所有子弹数据文件 - 修复文件搜索问题
+    bullet_data_dir = "../bullet_data"
+    # 使用os.listdir获取所有文件，然后筛选JSON文件
+    all_files = os.listdir(bullet_data_dir)
+    bullet_files = [os.path.join(bullet_data_dir, f) for f in all_files
+                   if f.endswith('.json') and os.path.isfile(os.path.join(bullet_data_dir, f))]
 
     if not bullet_files:
         print("在bullet_data文件夹中没有找到任何子弹数据文件")
@@ -295,7 +300,13 @@ def plot_all_bullets_together(target_date=None):
 
 def get_available_dates():
     """获取所有可用的日期"""
-    bullet_files = glob.glob("../bullet_data/*.json")
+    # 获取所有子弹数据文件 - 修复文件搜索问题
+    bullet_data_dir = "../bullet_data"
+    # 使用os.listdir获取所有文件，然后筛选JSON文件
+    all_files = os.listdir(bullet_data_dir)
+    bullet_files = [os.path.join(bullet_data_dir, f) for f in all_files
+                   if f.endswith('.json') and os.path.isfile(os.path.join(bullet_data_dir, f))]
+
     dates_set = set()
 
     for file_path in bullet_files:

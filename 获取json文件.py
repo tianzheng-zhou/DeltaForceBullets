@@ -194,6 +194,6 @@ if __name__ == "__main__":
         repo="DeltaForcePrice",
         filepath="price.json",
         output_dir="price_history",
-        start_date="2025-09-10",
-        end_date="2025-09-27"
+        start_date="2025-09-27",
+        end_date="2025-09-28"
     )

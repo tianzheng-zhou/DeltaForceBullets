@@ -12,7 +12,13 @@ from collections import defaultdict
 
 def get_available_dates():
     """获取所有可用的日期"""
-    bullet_files = glob.glob("../bullet_data/*.json")
+    # 获取所有子弹数据文件 - 修复文件搜索问题
+    bullet_data_dir = "../bullet_data"
+    # 使用os.listdir获取所有文件，然后筛选JSON文件
+    all_files = os.listdir(bullet_data_dir)
+    bullet_files = [os.path.join(bullet_data_dir, f) for f in all_files
+                   if f.endswith('.json') and os.path.isfile(os.path.join(bullet_data_dir, f))]
+
     dates_set = set()
 
     for file_path in bullet_files:
@@ -271,8 +277,12 @@ def generate_three_day_comparison_charts(days_back=3, specific_dates=None):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir, exist_ok=True)
 
-    # 获取所有子弹数据
-    bullet_files = glob.glob("../bullet_data/*.json")
+    # 获取所有子弹数据文件 - 修复文件搜索问题
+    bullet_data_dir = "../bullet_data"
+    # 使用os.listdir获取所有文件，然后筛选JSON文件
+    all_files = os.listdir(bullet_data_dir)
+    bullet_files = [os.path.join(bullet_data_dir, f) for f in all_files
+                    if f.endswith('.json') and os.path.isfile(os.path.join(bullet_data_dir, f))]
 
     if not bullet_files:
         print("在bullet_data文件夹中没有找到任何子弹数据文件")

@@ -1,0 +1,242 @@
+[
+  {
+    "name": ".45 ACP AP",
+    "price": 1645,
+    "level": 4,
+    "type": ".45"
+  },
+  {
+    "name": ".45 ACP FMJ",
+    "price": 536,
+    "level": 3,
+    "type": ".45"
+  },
+  {
+    "name": ".45 ACP RIP",
+    "price": 635,
+    "level": 3,
+    "type": ".45"
+  },
+  {
+    "name": "12.7x55mm PS12A",
+    "price": 449,
+    "level": 3,
+    "type": "12.7x55mm"
+  },
+  {
+    "name": "12.7x55mm PS12B",
+    "price": 5863,
+    "level": 5,
+    "type": "12.7x55mm"
+  },
+  {
+    "name": "12.7x55mm PD12双头弹",
+    "price": 2967,
+    "level": 4,
+    "type": "12.7x55mm"
+  },
+  {
+    "name": "5.45x39mm BS",
+    "price": 3969,
+    "level": 5,
+    "type": "5.45x39mm"
+  },
+  {
+    "name": "5.45x39mm BT",
+    "price": 1436,
+    "level": 4,
+    "type": "5.45x39mm"
+  },
+  {
+    "name": "5.45x39mm PS",
+    "price": 489,
+    "level": 3,
+    "type": "5.45x39mm"
+  },
+  {
+    "name": "5.56x45mm M995",
+    "price": 3887,
+    "level": 5,
+    "type": "5.56x45mm"
+  },
+  {
+    "name": "5.56x45mm M855A1",
+    "price": 1581,
+    "level": 4,
+    "type": "5.56x45mm"
+  },
+  {
+    "name": "5.7x28mm R37.F",
+    "price": 407,
+    "level": 3,
+    "type": "5.7x28mm"
+  },
+  {
+    "name": "5.7x28mm SS190",
+    "price": 3922,
+    "level": 5,
+    "type": "5.7x28mm"
+  },
+  {
+    "name": "5.7x28mm SS193",
+    "price": 1713,
+    "level": 4,
+    "type": "5.7x28mm"
+  },
+  {
+    "name": "5.7x28mm L191",
+    "price": 435,
+    "level": 3,
+    "type": "5.7x28mm"
+  },
+  {
+    "name": "5.8x42mm DBP10",
+    "price": 1673,
+    "level": 4,
+    "type": "5.8x42mm"
+  },
+  {
+    "name": "5.8x42mm DVP88",
+    "price": 313,
+    "level": 3,
+    "type": "5.8x42mm"
+  },
+  {
+    "name": "5.8x42mm DVC12",
+    "price": 4165,
+    "level": 5,
+    "type": "5.8x42mm"
+  },
+  {
+    "name": "6.8x51mm FMJ",
+    "price": 1934,
+    "level": 4,
+    "type": "6.8x51mm"
+  },
+  {
+    "name": "6.8x51mm Hybrid",
+    "price": 4504,
+    "level": 5,
+    "type": "6.8x51mm"
+  },
+  {
+    "name": "7.62x39mm PS",
+    "price": 491,
+    "level": 3,
+    "type": "7.62x39mm"
+  },
+  {
+    "name": "7.62x39mm AP",
+    "price": 3771,
+    "level": 5,
+    "type": "7.62x39mm"
+  },
+  {
+    "name": "7.62x39mm BP",
+    "price": 1576,
+    "level": 4,
+    "type": "7.62x39mm"
+  },
+  {
+    "name": "7.62x51mm M80",
+    "price": 1778,
+    "level": 4,
+    "type": "7.62x51mm"
+  },
+  {
+    "name": "7.62x51mm BPZ",
+    "price": 528,
+    "level": 3,
+    "type": "7.62x51mm"
+  },
+  {
+    "name": "7.62x51mm M62",
+    "price": 4867,
+    "level": 5,
+    "type": "7.62x51mm"
+  },
+  {
+    "name": "7.62x54R BT",
+    "price": 4174,
+    "level": 5,
+    "type": "7.62x54R"
+  },
+  {
+    "name": "7.62x54R LPS",
+    "price": 1810,
+    "level": 4,
+    "type": "7.62x54R"
+  },
+  {
+    "name": "7.62x54R T46M",
+    "price": 382,
+    "level": 3,
+    "type": "7.62x54R"
+  },
+  {
+    "name": "9x19mm PBP",
+    "price": 1486,
+    "level": 4,
+    "type": "9x19mm"
+  },
+  {
+    "name": "9x19mm AP6.3",
+    "price": 366,
+    "level": 3,
+    "type": "9x19mm"
+  },
+  {
+    "name": "9x19mm RIP",
+    "price": 558,
+    "level": 3,
+    "type": "9x19mm"
+  },
+  {
+    "name": "9x39mm SP5",
+    "price": 484,
+    "level": 3,
+    "type": "9x39mm"
+  },
+  {
+    "name": "9x39mm BP",
+    "price": 4029,
+    "level": 5,
+    "type": "9x39mm"
+  },
+  {
+    "name": "9x39mm SP6",
+    "price": 1841,
+    "level": 4,
+    "type": "9x39mm"
+  },
+  {
+    "name": "4.6x30mm AP SX",
+    "price": 3172,
+    "level": 5,
+    "type": "4.6x30mm"
+  },
+  {
+    "name": "4.6x30mm FMJ SX",
+    "price": 1495,
+    "level": 4,
+    "type": "4.6x30mm"
+  },
+  {
+    "name": "4.6x30mm Subsonic SX",
+    "price": 297,
+    "level": 3,
+    "type": "4.6x30mm"
+  },
+  {
+    "name": "5.56x45mm M855",
+    "price": 451,
+    "level": 3,
+    "type": "5.56x45mm"
+  },
+  {
+    "name": "12.7x55mm PS12",
+    "price": 2112,
+    "level": 4,
+    "type": "12.7x55mm"
+  }
+]

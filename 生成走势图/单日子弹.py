@@ -366,6 +366,6 @@ def main(target_date=None):
 
 if __name__ == "__main__":
 
-    main(date.today())
+    # main(date.today())
 
-    # main()
+    main()

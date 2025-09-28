@@ -322,15 +322,69 @@ def generate_three_day_comparison_charts(days_back=3, specific_dates=None):
     print(f"\n所有三日子弹对比图表已保存到 {output_dir} 文件夹")
 
 
-def main():
-    """主函数"""
+def main(target_date=None, comparison_mode=None):
+    """主函数
+    Args:
+        target_date (str): 要对比的目标日期，格式为 'YYYY-MM-DD'
+        comparison_mode (str): 对比模式，'recent' 对比最近3天，'specific' 指定日期与前两天对比
+    """
     print("三日子弹对比图生成工具")
     print("=" * 50)
 
-    # 获取用户输入
+    # 获取所有可用日期
+    available_dates = get_available_dates()
+    if not available_dates:
+        print("没有找到任何可用的数据日期")
+        return
+
+    print(f"可用的日期: {[d.strftime('%Y-%m-%d') for d in available_dates]}")
+
+    # 如果提供了参数，使用参数模式
+    if target_date is not None and comparison_mode is not None:
+        if comparison_mode == 'recent':
+            # 对比最近3天
+            generate_three_day_comparison_charts(days_back=3)
+            return
+        elif comparison_mode == 'specific':
+            # 指定一个日期，与前两天对比
+            try:
+                target_date_obj = datetime.strptime(target_date, "%Y-%m-%d").date()
+
+                if target_date_obj not in available_dates:
+                    print(f"警告: 日期 {target_date_obj} 没有可用数据")
+                    return
+
+                # 找到目标日期在可用日期列表中的位置
+                target_index = available_dates.index(target_date_obj)
+
+                # 获取前两天的日期（如果存在）
+                dates_to_compare = []
+                for i in range(2, -1, -1):  # 从目标日期往前推2天
+                    check_index = target_index - i
+                    if check_index >= 0:
+                        dates_to_compare.append(available_dates[check_index])
+
+                if len(dates_to_compare) < 2:
+                    print(f"警告: 日期 {target_date_obj} 之前的数据不足，无法进行三日对比")
+                    print(f"可用的对比日期: {[d.strftime('%Y-%m-%d') for d in dates_to_compare]}")
+                    return
+
+                print(f"对比日期: {[d.strftime('%Y-%m-%d') for d in dates_to_compare]}")
+
+                # 生成对比图表
+                generate_three_day_comparison_charts(specific_dates=dates_to_compare)
+                return
+
+            except ValueError:
+                print("日期格式错误，请使用 YYYY-MM-DD 格式")
+                return
+        else:
+            print("无效的对比模式，使用交互式模式")
+
+    # 交互式模式（原有功能）
     print("请选择对比方式:")
     print("1. 对比最近3天")
-    print("2. 指定具体日期对比")
+    print("2. 指定一个日期，与前两天对比")
 
     choice = input("请输入选择 (1 或 2): ").strip()
 
@@ -339,27 +393,34 @@ def main():
         generate_three_day_comparison_charts(days_back=3)
 
     elif choice == "2":
-        # 指定具体日期对比
-        available_dates = get_available_dates()
-        print(f"可用的日期: {[d.strftime('%Y-%m-%d') for d in available_dates]}")
-
-        dates_input = input("请输入要对比的日期 (格式: YYYY-MM-DD, 多个日期用逗号分隔): ").strip()
-
+        # 指定一个日期，与前两天对比
         try:
-            specific_dates = []
-            for date_str in dates_input.split(','):
-                date_obj = datetime.strptime(date_str.strip(), "%Y-%m-%d").date()
-                if date_obj in available_dates:
-                    specific_dates.append(date_obj)
-                else:
-                    print(f"警告: 日期 {date_str} 没有可用数据")
+            date_input = input("请输入要对比的日期 (格式: YYYY-MM-DD): ").strip()
+            target_date = datetime.strptime(date_input, "%Y-%m-%d").date()
 
-            if len(specific_dates) >= 2:
-                # 确保日期按顺序排列
-                specific_dates.sort()
-                generate_three_day_comparison_charts(specific_dates=specific_dates)
-            else:
-                print("需要至少指定2个有数据的日期进行对比")
+            if target_date not in available_dates:
+                print(f"警告: 日期 {target_date} 没有可用数据")
+                return
+
+            # 找到目标日期在可用日期列表中的位置
+            target_index = available_dates.index(target_date)
+
+            # 获取前两天的日期（如果存在）
+            dates_to_compare = []
+            for i in range(2, -1, -1):  # 从目标日期往前推2天
+                check_index = target_index - i
+                if check_index >= 0:
+                    dates_to_compare.append(available_dates[check_index])
+
+            if len(dates_to_compare) < 2:
+                print(f"警告: 日期 {target_date} 之前的数据不足，无法进行三日对比")
+                print(f"可用的对比日期: {[d.strftime('%Y-%m-%d') for d in dates_to_compare]}")
+                return
+
+            print(f"对比日期: {[d.strftime('%Y-%m-%d') for d in dates_to_compare]}")
+
+            # 生成对比图表
+            generate_three_day_comparison_charts(specific_dates=dates_to_compare)
 
         except ValueError:
             print("日期格式错误，请使用 YYYY-MM-DD 格式")
@@ -370,4 +431,5 @@ def main():
 
 
 if __name__ == "__main__":
+    # 保留原有的调用方式，同时支持参数调用
     main()

@@ -8,6 +8,8 @@ import warnings
 import urllib3
 import time
 
+download_count = 0
+
 
 def fetch_github_file_with_history(owner, repo, filepath, output_dir="downloaded_files",
                                    start_date=None, end_date=None):
@@ -22,6 +24,11 @@ def fetch_github_file_with_history(owner, repo, filepath, output_dir="downloaded
         start_date: 筛选开始日期(格式:YYYY-MM-DD)
         end_date: 筛选结束日期(格式:YYYY-MM-DD)
     """
+    global download_count
+    download_count += 1
+    if download_count > 5:
+        raise RuntimeError(f"下载次数过多: {download_count}，程序终止")
+
     # 创建输出目录
     os.makedirs(output_dir, exist_ok=True)
 
@@ -185,6 +192,10 @@ def fetch_github_file_with_history(owner, repo, filepath, output_dir="downloaded
     print(f"  - 新增下载: {downloaded_count} 个文件")
     print(f"  - 跳过已存在: {skipped_count} 个文件")
     print(f"  - 下载失败: {failed_count} 个文件")
+    if downloaded_count > 0:
+        # 重新下载
+        fetch_github_file_with_history(owner, repo, filepath, output_dir,
+                                       start_date, end_date)
     print(f"文件和历史版本已保存到目录: {output_dir}")
 
 

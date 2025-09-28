@@ -9,11 +9,12 @@ from collections import defaultdict
 
 
 
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def get_available_dates():
     """获取所有可用的日期"""
-    # 获取所有子弹数据文件 - 修复文件搜索问题
-    bullet_data_dir = "../bullet_data"
+    # 获取所有子弹数据文件 - 使用绝对路径
+    bullet_data_dir = os.path.join(PROJECT_ROOT, "bullet_data")
     # 使用os.listdir获取所有文件，然后筛选JSON文件
     all_files = os.listdir(bullet_data_dir)
     bullet_files = [os.path.join(bullet_data_dir, f) for f in all_files
@@ -269,16 +270,16 @@ def generate_three_day_comparison_charts(days_back=3, specific_dates=None):
     print(f"对比日期: {[d.strftime('%Y-%m-%d') for d in dates_to_compare]}")
     print(f"目标文件夹日期: {target_date_folder.strftime('%Y-%m-%d')}")
 
-    # 创建输出目录 - 放在对应日期的文件夹下
-    base_output_dir = "../price_charts"
+    # 创建输出目录 - 放在对应日期的文件夹下 - 使用绝对路径
+    base_output_dir = os.path.join(PROJECT_ROOT, "price_charts")
     target_date_str = target_date_folder.strftime("%Y-%m-%d")
     output_dir = os.path.join(base_output_dir, target_date_str, "三日子弹对比")
 
     if not os.path.exists(output_dir):
         os.makedirs(output_dir, exist_ok=True)
 
-    # 获取所有子弹数据文件 - 修复文件搜索问题
-    bullet_data_dir = "../bullet_data"
+    # 获取所有子弹数据文件 - 使用绝对路径
+    bullet_data_dir = os.path.join(PROJECT_ROOT, "bullet_data")
     # 使用os.listdir获取所有文件，然后筛选JSON文件
     all_files = os.listdir(bullet_data_dir)
     bullet_files = [os.path.join(bullet_data_dir, f) for f in all_files

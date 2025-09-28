@@ -1,0 +1,158 @@
+{
+  "2025-09-13": {
+    "downloaded": true,
+    "last_checked": "2025-09-28T19:15:52.881640",
+    "filtered": true,
+    "last_filtered": "2025-09-28T19:26:52.253836",
+    "classification_complete": true,
+    "last_updated": "2025-09-28 20:55:52"
+  },
+  "2025-09-14": {
+    "downloaded": true,
+    "last_checked": "2025-09-28T19:15:52.882595",
+    "filtered": true,
+    "last_filtered": "2025-09-28T19:26:52.255792",
+    "classification_complete": true,
+    "last_updated": "2025-09-28 20:55:52"
+  },
+  "2025-09-15": {
+    "downloaded": true,
+    "last_checked": "2025-09-28T19:15:52.882595",
+    "filtered": true,
+    "last_filtered": "2025-09-28T19:26:52.255792",
+    "classification_complete": true,
+    "last_updated": "2025-09-28 20:55:52"
+  },
+  "2025-09-16": {
+    "downloaded": true,
+    "last_checked": "2025-09-28T19:15:52.883583",
+    "filtered": true,
+    "last_filtered": "2025-09-28T19:26:52.256811",
+    "classification_complete": true,
+    "last_updated": "2025-09-28 20:55:52"
+  },
+  "2025-09-17": {
+    "downloaded": true,
+    "last_checked": "2025-09-28T19:15:52.883583",
+    "filtered": true,
+    "last_filtered": "2025-09-28T19:26:52.257843",
+    "classification_complete": true,
+    "last_updated": "2025-09-28 20:55:52"
+  },
+  "2025-09-18": {
+    "downloaded": true,
+    "last_checked": "2025-09-28T19:15:52.883583",
+    "filtered": true,
+    "last_filtered": "2025-09-28T19:26:52.257843",
+    "classification_complete": true,
+    "last_updated": "2025-09-28 20:55:52"
+  },
+  "2025-09-19": {
+    "downloaded": true,
+    "last_checked": "2025-09-28T19:15:52.884649",
+    "filtered": true,
+    "last_filtered": "2025-09-28T19:26:52.258860",
+    "classification_complete": true,
+    "last_updated": "2025-09-28 20:55:52"
+  },
+  "2025-09-20": {
+    "downloaded": true,
+    "last_checked": "2025-09-28T19:15:52.884649",
+    "filtered": true,
+    "last_filtered": "2025-09-28T19:26:52.259781",
+    "classification_complete": true,
+    "last_updated": "2025-09-28 20:55:52"
+  },
+  "2025-09-21": {
+    "downloaded": true,
+    "last_checked": "2025-09-28T19:15:52.885658",
+    "filtered": true,
+    "last_filtered": "2025-09-28T19:26:52.259781",
+    "classification_complete": true,
+    "last_updated": "2025-09-28 20:55:52"
+  },
+  "2025-09-22": {
+    "downloaded": true,
+    "last_checked": "2025-09-28T19:15:52.885658",
+    "filtered": true,
+    "last_filtered": "2025-09-28T19:26:52.261807",
+    "chart_single_day_generated": true,
+    "chart_single_day_last_generated": "2025-09-28T19:53:52.229307",
+    "chart_three_day_generated": true,
+    "chart_three_day_last_generated": "2025-09-28T20:09:38.341345",
+    "chart_seven_day_generated": true,
+    "chart_seven_day_last_generated": "2025-09-28T20:10:09.500924",
+    "classification_complete": true,
+    "last_updated": "2025-09-28 20:55:52"
+  },
+  "2025-09-23": {
+    "downloaded": true,
+    "last_checked": "2025-09-28T19:15:52.886703",
+    "filtered": true,
+    "last_filtered": "2025-09-28T19:26:52.262804",
+    "chart_single_day_generated": true,
+    "chart_single_day_last_generated": "2025-09-28T19:53:40.111994",
+    "chart_three_day_generated": true,
+    "chart_three_day_last_generated": "2025-09-28T20:08:43.809599",
+    "chart_seven_day_generated": true,
+    "chart_seven_day_last_generated": "2025-09-28T20:09:14.830853",
+    "classification_complete": true,
+    "last_updated": "2025-09-28 20:55:52"
+  },
+  "2025-09-24": {
+    "downloaded": true,
+    "last_checked": "2025-09-28T19:15:52.886703",
+    "filtered": true,
+    "last_filtered": "2025-09-28T19:26:52.263797",
+    "chart_single_day_generated": true,
+    "chart_single_day_last_generated": "2025-09-28T19:53:27.950096",
+    "chart_three_day_generated": true,
+    "chart_three_day_last_generated": "2025-09-28T20:07:49.139098",
+    "chart_seven_day_generated": true,
+    "chart_seven_day_last_generated": "2025-09-28T20:08:20.451725",
+    "classification_complete": true,
+    "last_updated": "2025-09-28 20:55:52"
+  },
+  "2025-09-25": {
+    "downloaded": true,
+    "last_checked": "2025-09-28T19:15:52.886703",
+    "filtered": true,
+    "last_filtered": "2025-09-28T19:26:52.264870",
+    "chart_single_day_generated": true,
+    "chart_single_day_last_generated": "2025-09-28T19:53:15.802031",
+    "chart_three_day_generated": true,
+    "chart_three_day_last_generated": "2025-09-28T20:06:54.130029",
+    "chart_seven_day_generated": true,
+    "chart_seven_day_last_generated": "2025-09-28T20:07:25.535333",
+    "classification_complete": true,
+    "last_updated": "2025-09-28 20:55:52"
+  },
+  "2025-09-26": {
+    "downloaded": true,
+    "last_checked": "2025-09-28T19:15:52.887735",
+    "filtered": true,
+    "last_filtered": "2025-09-28T19:26:52.265783",
+    "chart_single_day_generated": true,
+    "chart_single_day_last_generated": "2025-09-28T19:53:03.666296",
+    "chart_three_day_generated": true,
+    "chart_three_day_last_generated": "2025-09-28T20:05:59.226386",
+    "chart_seven_day_generated": true,
+    "chart_seven_day_last_generated": "2025-09-28T20:06:30.712420",
+    "classification_complete": true,
+    "last_updated": "2025-09-28 20:55:52"
+  },
+  "2025-09-27": {
+    "downloaded": true,
+    "last_checked": "2025-09-28T19:15:52.887735",
+    "filtered": true,
+    "last_filtered": "2025-09-28T19:26:52.266791",
+    "chart_single_day_generated": true,
+    "chart_single_day_last_generated": "2025-09-28T19:52:51.485227",
+    "chart_three_day_generated": true,
+    "chart_three_day_last_generated": "2025-09-28T20:05:03.729072",
+    "chart_seven_day_generated": true,
+    "chart_seven_day_last_generated": "2025-09-28T20:05:35.290256",
+    "classification_complete": true,
+    "last_updated": "2025-09-28 20:55:52"
+  }
+}

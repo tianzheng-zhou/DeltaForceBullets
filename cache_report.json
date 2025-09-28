@@ -1,0 +1,163 @@
+{
+  "cache_info": {
+    "total_dates": 7,
+    "image_types": {
+      "individual_bullet": "单个子弹价格走势图",
+      "all_bullets_together": "所有子弹综合走势图",
+      "price_comparison": "价格对比图",
+      "trend_analysis": "趋势分析图",
+      "market_analysis": "市场分析图",
+      "volume_trend": "成交量趋势图"
+    },
+    "generated_at": "2025-09-28 17:32:36"
+  },
+  "dates_status": {
+    "2025-09-28": {
+      "date": "2025-09-28",
+      "basic_steps_complete": false,
+      "images_status": {
+        "individual_bullet (单个子弹价格走势图)": "✗",
+        "all_bullets_together (所有子弹综合走势图)": "✗",
+        "price_comparison (价格对比图)": "✗",
+        "trend_analysis (趋势分析图)": "✗",
+        "market_analysis (市场分析图)": "✗",
+        "volume_trend (成交量趋势图)": "✗"
+      },
+      "missing_images": [
+        "individual_bullet",
+        "all_bullets_together",
+        "price_comparison",
+        "trend_analysis",
+        "market_analysis",
+        "volume_trend"
+      ],
+      "last_updated": "2025-09-28 17:32:24"
+    },
+    "2025-09-27": {
+      "date": "2025-09-27",
+      "basic_steps_complete": false,
+      "images_status": {
+        "individual_bullet (单个子弹价格走势图)": "✗",
+        "all_bullets_together (所有子弹综合走势图)": "✗",
+        "price_comparison (价格对比图)": "✗",
+        "trend_analysis (趋势分析图)": "✗",
+        "market_analysis (市场分析图)": "✗",
+        "volume_trend (成交量趋势图)": "✗"
+      },
+      "missing_images": [
+        "individual_bullet",
+        "all_bullets_together",
+        "price_comparison",
+        "trend_analysis",
+        "market_analysis",
+        "volume_trend"
+      ],
+      "last_updated": "2025-09-28 17:32:26"
+    },
+    "2025-09-26": {
+      "date": "2025-09-26",
+      "basic_steps_complete": false,
+      "images_status": {
+        "individual_bullet (单个子弹价格走势图)": "✗",
+        "all_bullets_together (所有子弹综合走势图)": "✗",
+        "price_comparison (价格对比图)": "✗",
+        "trend_analysis (趋势分析图)": "✗",
+        "market_analysis (市场分析图)": "✗",
+        "volume_trend (成交量趋势图)": "✗"
+      },
+      "missing_images": [
+        "individual_bullet",
+        "all_bullets_together",
+        "price_comparison",
+        "trend_analysis",
+        "market_analysis",
+        "volume_trend"
+      ],
+      "last_updated": "2025-09-28 17:32:28"
+    },
+    "2025-09-25": {
+      "date": "2025-09-25",
+      "basic_steps_complete": false,
+      "images_status": {
+        "individual_bullet (单个子弹价格走势图)": "✗",
+        "all_bullets_together (所有子弹综合走势图)": "✗",
+        "price_comparison (价格对比图)": "✗",
+        "trend_analysis (趋势分析图)": "✗",
+        "market_analysis (市场分析图)": "✗",
+        "volume_trend (成交量趋势图)": "✗"
+      },
+      "missing_images": [
+        "individual_bullet",
+        "all_bullets_together",
+        "price_comparison",
+        "trend_analysis",
+        "market_analysis",
+        "volume_trend"
+      ],
+      "last_updated": "2025-09-28 17:32:30"
+    },
+    "2025-09-24": {
+      "date": "2025-09-24",
+      "basic_steps_complete": false,
+      "images_status": {
+        "individual_bullet (单个子弹价格走势图)": "✗",
+        "all_bullets_together (所有子弹综合走势图)": "✗",
+        "price_comparison (价格对比图)": "✗",
+        "trend_analysis (趋势分析图)": "✗",
+        "market_analysis (市场分析图)": "✗",
+        "volume_trend (成交量趋势图)": "✗"
+      },
+      "missing_images": [
+        "individual_bullet",
+        "all_bullets_together",
+        "price_comparison",
+        "trend_analysis",
+        "market_analysis",
+        "volume_trend"
+      ],
+      "last_updated": "2025-09-28 17:32:32"
+    },
+    "2025-09-23": {
+      "date": "2025-09-23",
+      "basic_steps_complete": false,
+      "images_status": {
+        "individual_bullet (单个子弹价格走势图)": "✗",
+        "all_bullets_together (所有子弹综合走势图)": "✗",
+        "price_comparison (价格对比图)": "✗",
+        "trend_analysis (趋势分析图)": "✗",
+        "market_analysis (市场分析图)": "✗",
+        "volume_trend (成交量趋势图)": "✗"
+      },
+      "missing_images": [
+        "individual_bullet",
+        "all_bullets_together",
+        "price_comparison",
+        "trend_analysis",
+        "market_analysis",
+        "volume_trend"
+      ],
+      "last_updated": "2025-09-28 17:32:35"
+    },
+    "2025-09-22": {
+      "date": "2025-09-22",
+      "basic_steps_complete": false,
+      "images_status": {
+        "individual_bullet (单个子弹价格走势图)": "✗",
+        "all_bullets_together (所有子弹综合走势图)": "✗",
+        "price_comparison (价格对比图)": "✗",
+        "trend_analysis (趋势分析图)": "✗",
+        "market_analysis (市场分析图)": "✗",
+        "volume_trend (成交量趋势图)": "✗"
+      },
+      "missing_images": [
+        "individual_bullet",
+        "all_bullets_together",
+        "price_comparison",
+        "trend_analysis",
+        "market_analysis",
+        "volume_trend"
+      ],
+      "last_updated": "2025-09-28 17:32:36"
+    }
+  }
+}

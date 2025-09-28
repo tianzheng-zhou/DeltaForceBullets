@@ -67,12 +67,15 @@ def plot_individual_bullet_prices(target_date=None):
     plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'DejaVu Sans']
     plt.rcParams['axes.unicode_minus'] = False
 
-    # 获取所有子弹数据文件 - 修复文件搜索问题
-    bullet_data_dir = "../bullet_data"
+    # 获取项目根目录
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    # 获取所有子弹数据文件 - 使用绝对路径
+    bullet_data_dir = os.path.join(project_root, "bullet_data")
     # 使用os.listdir获取所有文件，然后筛选JSON文件
     all_files = os.listdir(bullet_data_dir)
     bullet_files = [os.path.join(bullet_data_dir, f) for f in all_files
-                   if f.endswith('.json') and os.path.isfile(os.path.join(bullet_data_dir, f))]
+                    if f.endswith('.json') and os.path.isfile(os.path.join(bullet_data_dir, f))]
 
     if not bullet_files:
         print("在bullet_data文件夹中没有找到任何子弹数据文件")
@@ -80,8 +83,8 @@ def plot_individual_bullet_prices(target_date=None):
 
     print(f"找到 {len(bullet_files)} 个子弹数据文件")
 
-    # 创建图表输出文件夹结构
-    base_output_dir = "../price_charts"
+    # 创建图表输出文件夹结构 - 使用绝对路径
+    base_output_dir = os.path.join(project_root, "price_charts")
     if target_date:
         date_str = target_date.strftime("%Y-%m-%d")
         chart_type_dir = "单日子弹价格波动"

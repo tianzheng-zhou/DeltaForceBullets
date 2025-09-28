@@ -165,6 +165,71 @@ def preview_sample():
             print("-" * 30)
 
 
+def process_files_by_date(target_dates=None):
+    """
+    按日期处理filtered_price_history文件夹中的文件
+
+    Args:
+        target_dates: 需要处理的日期列表，格式为["2025-09-13", "2025-09-14"]，如果为None则处理所有文件
+    """
+    input_folder = 'filtered_price_history'
+    output_folder = 'classified_price_history'
+
+    # 创建输出文件夹
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
+    # 获取所有JSON文件
+    all_json_files = [f for f in os.listdir(input_folder) if f.endswith('.json')]
+
+    # 如果指定了目标日期，筛选对应的文件
+    if target_dates:
+        target_files = []
+        for filename in all_json_files:
+            # 从文件名提取日期
+            date_match = re.search(r'(\d{4}-\d{2}-\d{2})', filename)
+            if date_match:
+                file_date = date_match.group(1)
+                if file_date in target_dates:
+                    target_files.append(filename)
+        json_files = target_files
+        print(f"找到 {len(json_files)} 个需要处理的文件（目标日期: {target_dates}）")
+    else:
+        json_files = all_json_files
+        print(f"找到 {len(json_files)} 个文件需要处理")
+
+    processed_count = 0
+    for filename in json_files:
+        input_path = os.path.join(input_folder, filename)
+        output_path = os.path.join(output_folder, filename)
+
+        try:
+            # 检查输出文件是否已存在（避免重复处理）
+            if os.path.exists(output_path):
+                print(f"文件已存在，跳过: {filename}")
+                continue
+
+            # 读取原始数据
+            with open(input_path, 'r', encoding='utf-8') as f:
+                original_data = json.load(f)
+
+            # 处理每个子弹数据
+            processed_data = [process_bullet_data(item) for item in original_data]
+
+            # 保存处理后的数据
+            with open(output_path, 'w', encoding='utf-8') as f:
+                json.dump(processed_data, f, ensure_ascii=False, indent=2)
+
+            print(f"已处理: {filename}")
+            processed_count += 1
+
+        except Exception as e:
+            print(f"处理文件 {filename} 时出错: {e}")
+
+    print(f"处理完成！共处理了 {processed_count} 个文件")
+    return processed_count
+
+
 if __name__ == "__main__":
     print("子弹数据分类处理工具")
     print("=" * 50)
@@ -173,6 +238,7 @@ if __name__ == "__main__":
     preview_sample()
 
     print("\n开始处理所有文件...")
-    process_all_files()
+    # 使用新的按日期处理函数，不指定日期则处理所有文件
+    process_files_by_date()
 
     print("\n处理完成！处理后的文件保存在 'classified_price_history' 文件夹中")

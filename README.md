@@ -7,6 +7,7 @@
 ## 主要功能
 
 给三角洲大部分子弹的数据做可视化，便于炒子弹差价赚哈夫币
+
 也可以自己尝试做不同的可视化方式。
 
 ## 环境要求
@@ -39,20 +40,37 @@
 
 
 ## 项目结构
+
 ├── price_history/          # 原始价格数据
+
 ├── filtered_price_history/ # 筛选后数据
+
 ├── classified_price_history/ # 分类数据
+
 ├── bullet_data/            # 子弹详细数据
+
 ├── price_charts/           # 生成的可视化图表
+
 ├── cache_manager.py        # 缓存管理系统
+
 └── main.py                 # 主程序入口
 
 ## 注意事项
+
 源数据10分钟更新一次。
-由于作者水平有限，这个项目结构有些臃肿，存储了很多中间的数据文件
+
+由于作者水平有限，这个项目结构有些臃肿，存储了很多中间的数据文件，而且bug多多。
+
 而且从数据来源下载的所有文件都会存在price_history中，filtered_price_history classified_price_history bullet_data这三个文件夹存储了中间过程的数据
+
 由于一级，二级子弹没有炒的必要，所以作者把这些子弹的数据都加入了黑名单。
+
 如果你想要分析其他子弹的数据，可以在main.py中的name_white_list中添加你想要分析的子弹名称。但是没有.300子弹的数据。
+
+这么说，也可以看别的什么物品的数据（doge）
+
 注意：添加的名称必须与数据来源中的名称完全一致，包括大小写。
 
-数据来源：[orzice/DeltaForcePrice: 三角洲行动API-真实游戏内交易行实时价格](https://github.com/orzice/DeltaForcePrice) 这个API没有.300子弹的数据
+## 数据来源
+
+[orzice/DeltaForcePrice: 三角洲行动API-真实游戏内交易行实时价格](https://github.com/orzice/DeltaForcePrice) 但是这个API没有.300子弹的数据

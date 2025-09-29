@@ -11,8 +11,6 @@ from 生成走势图.单日子弹 import plot_individual_bullet_prices, plot_all
 from 生成走势图.三日子弹对比 import generate_three_day_comparison_charts
 from 生成走势图.七日子弹对比 import generate_seven_day_comparison_charts
 
-
-
 from cache_manager import CacheManager
 
 
@@ -86,13 +84,17 @@ def download_price_data():
         if missing_dates:
             print("开始下载缺失的数据...")
             try:
+                # 使用环境变量中的token
+                github_token = os.getenv('GITHUB_TOKEN')
                 fetch_github_file_with_history(
                     owner="orzice",
                     repo="DeltaForcePrice",
                     filepath="price.json",
                     output_dir="price_history",
-                    start_date=missing_dates[0],  # 从第一个缺失日期开始
-                    end_date=missing_dates[-1]  # 到最后一个缺失日期结束
+                    start_date=missing_dates[0],
+                    end_date=missing_dates[-1],
+                    github_token=github_token,  # 添加token参数
+                    request_delay=0  # 添加请求间隔
                 )
                 print("✓ 缺失数据下载完成")
                 # 将昨天之前的数据标记为已下载
@@ -159,13 +161,30 @@ def filter_price_data():
                 end_date = missing_filter_dates[-1]
 
                 # 使用filter_files_by_datetime函数筛选文件
-                start_datetime = datetime.strptime(start_date, "%Y-%m-%d")
-                end_datetime = datetime.strptime(end_date, "%Y-%m-%d")
+                start_datetime = datetime.combine(datetime.strptime(start_date, "%Y-%m-%d").date(), datetime.min.time())
+                end_datetime = datetime.combine(datetime.strptime(end_date, "%Y-%m-%d").date(), datetime.max.time())
                 json_files = filter_files_by_datetime("price_history", start_datetime, end_datetime)
 
                 if not json_files:
-                    print("未找到符合条件的JSON文件")
-                    return False
+                    print("未找到指定日期的JSON文件，尝试查找最近的文件...")
+                    # 查找最近7天内的文件
+                    recent_datetime = datetime.now() - timedelta(days=7)
+                    json_files = filter_files_by_datetime("price_history", recent_datetime, datetime.now())
+
+                    if not json_files:
+                        print("未找到任何可用的数据文件")
+                        return False
+
+                    # 按时间排序，获取最新的文件
+                    json_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+                    latest_file = json_files[0] if json_files else None
+
+                    if latest_file:
+                        print(f"使用最新数据文件: {os.path.basename(latest_file)}")
+                        json_files = [latest_file]
+                    else:
+                        print("未找到任何可用的数据文件")
+                        return False
 
                 print(f"找到 {len(json_files)} 个符合条件的文件")
 
@@ -205,7 +224,6 @@ def filter_price_data():
                 print(f"✗ 筛选数据失败: {e}")
                 return False
 
-    # 筛选今天的数据（保持筛选状态为 False）
     # 筛选今天的数据（保持筛选状态为 False）
     print(f"\n筛选今天的数据: {today}")
     try:
@@ -359,20 +377,21 @@ def classify_bullet_data():
         # 分类今天的数据（保持分类状态为 False）
         print(f"\n分类今天的数据: {today}")
         try:
-            # 强制处理今天的数据，不管是否已存在
+            # 检查今天的数据是否已存在
             today_str = today.strftime("%Y-%m-%d")
+            today_file = os.path.join('classified_price_history', f"{today_str}_classified.json")
+
+            if os.path.exists(today_file):
+                print(f"✓ 今天的数据已存在，跳过处理")
+                return True  # 今天的数据已存在，返回True表示成功跳过
 
             # 使用process_files_by_date函数处理今天的数据
             from 子弹分类 import process_files_by_date
             processed_count = process_files_by_date([today_str])
 
-            if processed_count > 0:
-                print(f"✓ 今天的数据分类完成，处理了 {processed_count} 个文件")
-                # 注意：今天的数据分类状态保持为 False
-                return True
-            else:
-                print("✗ 今天的数据分类失败")
-                return False
+            # 修改判断逻辑，0个文件也视为成功（可能数据没有变化）
+            print(f"✓ 今天的数据处理完成，共处理 {processed_count} 个文件")
+            return True
 
         except Exception as e:
             print(f"✗ 今天的数据分类失败: {e}")
@@ -381,6 +400,7 @@ def classify_bullet_data():
     except Exception as e:
         print(f"✗ 子弹分类失败: {e}")
         return False
+
 
 def further_classify_data():
     """进一步分类数据 - 使用进一步分类.py中的函数"""

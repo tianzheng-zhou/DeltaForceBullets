@@ -11,26 +11,33 @@ import time
 download_count = 0
 
 
-def fetch_github_file_with_history(owner, repo, filepath, output_dir="downloaded_files",
-                                   start_date=None, end_date=None):
-    """
-    从GitHub抓取文件及其历史版本（优化版：增量获取历史，但重新下载所有应下载的文件）
+def fetch_github_file_with_history(owner, repo, filepath, output_dir,
+                                 start_date=None, end_date=None,
+                                 github_token=None, request_delay=1):
+    """获取GitHub文件历史版本
 
     Args:
-        owner: GitHub仓库所有者
-        repo: 仓库名称
+        owner: 仓库所有者
+        repo: 仓库名
         filepath: 文件路径
         output_dir: 输出目录
-        start_date: 筛选开始日期(格式:YYYY-MM-DD)
-        end_date: 筛选结束日期(格式:YYYY-MM-DD)
+        start_date: 开始日期(YYYY-MM-DD)
+        end_date: 结束日期(YYYY-MM-DD)
+        github_token: GitHub个人访问令牌
+        request_delay: 请求间隔(秒)
     """
+    # 创建输出目录
+    os.makedirs(output_dir, exist_ok=True)
+
+    # 设置请求头
+    headers = {'Accept': 'application/vnd.github.v3+json'}
+    if github_token:
+        headers['Authorization'] = f'token {github_token}'
+
     global download_count
     download_count += 1
     if download_count > 5:
         raise RuntimeError(f"下载次数过多: {download_count}，程序终止")
-
-    # 创建输出目录
-    os.makedirs(output_dir, exist_ok=True)
 
     # 创建带重试机制的session
     session = requests.Session()
@@ -65,7 +72,13 @@ def fetch_github_file_with_history(owner, repo, filepath, output_dir="downloaded
     found_last_known = False
 
     while True:
+        # 在获取commits的请求中添加headers
         commits_url = f"https://api.github.com/repos/{owner}/{repo}/commits?path={filepath}&page={page}&per_page=100"
+        response = requests.get(commits_url, headers=headers)
+
+        # 添加请求间隔
+        time.sleep(request_delay)
+
         try:
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore", urllib3.exceptions.InsecureRequestWarning)
@@ -107,8 +120,6 @@ def fetch_github_file_with_history(owner, repo, filepath, output_dir="downloaded
 
         page += 1
 
-        # 添加延迟避免触发API限制
-        time.sleep(0.5)
 
     if not commits and not existing_commits:
         print("未获取到任何commit历史")
@@ -206,5 +217,5 @@ if __name__ == "__main__":
         filepath="price.json",
         output_dir="price_history",
         start_date="2025-09-27",
-        end_date="2025-09-28"
+        end_date="2025-09-29"
     )

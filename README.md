@@ -1,6 +1,6 @@
 # 三角洲子弹价格数据分析工具
 
-[![License](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/License-GPL--3.0-blue)](https://www.gnu.org/licenses/gpl-3.0)
 
 自动化三角洲子弹数据分析工具，支持价格数据抓取、清洗分类、多维度可视化分析。
 

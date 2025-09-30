@@ -166,5 +166,17 @@
     "chart_three_day_last_generated": "2025-09-29T02:10:02.507540",
     "chart_seven_day_generated": true,
     "chart_seven_day_last_generated": "2025-09-29T02:11:38.683376"
+  },
+  "2025-09-29": {
+    "downloaded": true,
+    "last_checked": "2025-09-30T00:42:13.201938",
+    "filtered": true,
+    "last_filtered": "2025-09-30T00:42:28.853955",
+    "chart_single_day_generated": true,
+    "chart_single_day_last_generated": "2025-09-30T00:46:23.769692",
+    "chart_three_day_generated": true,
+    "chart_three_day_last_generated": "2025-09-30T00:47:04.586232",
+    "chart_seven_day_generated": true,
+    "chart_seven_day_last_generated": "2025-09-30T00:47:58.903287"
   }
 }

@@ -74,7 +74,6 @@ def fetch_github_file_with_history(owner, repo, filepath, output_dir,
     while True:
         # 在获取commits的请求中添加headers
         commits_url = f"https://api.github.com/repos/{owner}/{repo}/commits?path={filepath}&page={page}&per_page=100"
-        response = requests.get(commits_url, headers=headers)
 
         # 添加请求间隔
         time.sleep(request_delay)
@@ -82,7 +81,8 @@ def fetch_github_file_with_history(owner, repo, filepath, output_dir,
         try:
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore", urllib3.exceptions.InsecureRequestWarning)
-                commits_response = session.get(commits_url, verify=False)
+                # 确保使用配置好的session进行请求
+                commits_response = session.get(commits_url, headers=headers, verify=False)
             commits_response.raise_for_status()
         except requests.exceptions.RequestException as e:
             print(f"请求失败: {str(e)}")
@@ -179,7 +179,7 @@ def fetch_github_file_with_history(owner, repo, filepath, output_dir,
         # 获取特定commit版本的文件内容
         file_url = f"https://raw.githubusercontent.com/{owner}/{repo}/{commit_sha}/{filepath}"
         try:
-            file_response = requests.get(file_url, verify=False, timeout=30)
+            file_response = session.get(file_url, verify=False, timeout=30)  # 使用配置好的session
         except requests.exceptions.RequestException as e:
             print(f"[{i + 1}/{len(all_commits)}] 下载文件失败: {str(e)}")
             failed_count += 1
@@ -199,14 +199,15 @@ def fetch_github_file_with_history(owner, repo, filepath, output_dir,
         # 添加延迟避免触发API限制
         time.sleep(1)
 
+    # 修改递归调用逻辑（避免无限循环）
     print(f"文件处理完成:")
     print(f"  - 新增下载: {downloaded_count} 个文件")
     print(f"  - 跳过已存在: {skipped_count} 个文件")
     print(f"  - 下载失败: {failed_count} 个文件")
-    if downloaded_count > 0:
-        # 重新下载
-        fetch_github_file_with_history(owner, repo, filepath, output_dir,
-                                       start_date, end_date)
+    # 删除可能导致递归调用的代码
+    # if downloaded_count > 0:
+    #     # 重新下载
+    #     fetch_github_file_with_history(...)
     print(f"文件和历史版本已保存到目录: {output_dir}")
 
 
@@ -217,5 +218,5 @@ if __name__ == "__main__":
         filepath="price.json",
         output_dir="price_history",
         start_date="2025-09-27",
-        end_date="2025-09-29"
+        end_date="2025-09-30"
     )

@@ -84,25 +84,40 @@ def download_price_data():
         if missing_dates:
             print("开始下载缺失的数据...")
             try:
-                # 使用环境变量中的token
-                github_token = os.getenv('GITHUB_TOKEN')
-                fetch_github_file_with_history(
-                    owner="orzice",
-                    repo="DeltaForcePrice",
-                    filepath="price.json",
-                    output_dir="price_history",
-                    start_date=missing_dates[0],
-                    end_date=missing_dates[-1],
-                    github_token=github_token,  # 添加token参数
-                    request_delay=0  # 添加请求间隔
-                )
-                print("✓ 缺失数据下载完成")
-                # 将昨天之前的数据标记为已下载
-                updated_count = cache_manager.mark_range_as_downloaded(target_start_date, target_end_date)
-                print(f"✓ 已将 {updated_count} 个日期的下载状态置为 True")
+                # 修改GitHub API请求部分，添加token有效性检查
+                try:
+                    github_token = os.getenv('GITHUB_TOKEN')
+                    if not github_token:
+                        raise ValueError("未找到GITHUB_TOKEN环境变量，请先在系统中设置有效的GitHub个人访问令牌")
 
-            except Exception as e:
-                print(f"✗ 下载缺失数据失败: {e}")
+                    fetch_github_file_with_history(
+                        owner="orzice",
+                        repo="DeltaForcePrice",
+                        filepath="price.json",
+                        output_dir="price_history",
+                        start_date=missing_dates[0],
+                        end_date=missing_dates[-1],
+                        # github_token=github_token,
+                        # request_delay=0
+                    )
+                    print("✓ 缺失数据下载完成")
+                    updated_count = cache_manager.mark_range_as_downloaded(target_start_date, target_end_date)
+                    print(f"✓ 已将 {updated_count} 个日期的下载状态置为 True")
+
+                except Exception as e:
+                    if "401" in str(e):
+                        print("✗ GitHub身份验证失败，请检查：")
+                        print("1. GITHUB_TOKEN环境变量是否已正确设置")
+                        print("2. Token是否具有repo访问权限")
+                        print("3. Token是否已过期")
+                        print("详细错误:", e)
+                    else:
+                        print(f"✗ 下载缺失数据失败: {e}")
+                    return False  # 这里需要return避免继续执行
+
+            except Exception as e:  # 新增外层except
+                print(f"✗ 下载流程异常: {e}")
+                return False
 
     # 下载今天的数据（保持下载状态为 False）
     print(f"\n下载今天的数据: {today}")
@@ -315,10 +330,11 @@ def classify_bullet_data():
         # 获取已存在的分类文件
         existing_files = [f for f in os.listdir(classified_folder) if f.endswith('.json')]
 
-        # 提取已存在的日期
+        # 修改正则表达式匹配更严格的日期格式
         existing_dates = set()
         for filename in existing_files:
-            date_match = re.search(r'(\d{4}-\d{2}-\d{2})', filename)
+            # 匹配格式如 "2025-09-15_classified.json"
+            date_match = re.search(r'^(\d{4}-\d{2}-\d{2})_classified\.json$', filename)
             if date_match:
                 existing_dates.add(date_match.group(1))
 
@@ -340,8 +356,9 @@ def classify_bullet_data():
         if missing_classify_dates:
             print("开始分类缺失的数据...")
             try:
-                # 使用process_files_by_date函数按日期处理
+                # 将导入语句移到最内层try块的开头
                 from 子弹分类 import process_files_by_date
+
                 processed_count = process_files_by_date(missing_classify_dates)
 
                 if processed_count > 0:
@@ -383,9 +400,9 @@ def classify_bullet_data():
 
             if os.path.exists(today_file):
                 print(f"✓ 今天的数据已存在，跳过处理")
-                return True  # 今天的数据已存在，返回True表示成功跳过
+                return True
 
-            # 使用process_files_by_date函数处理今天的数据
+            # 这里也需要确保导入在try块内
             from 子弹分类 import process_files_by_date
             processed_count = process_files_by_date([today_str])
 

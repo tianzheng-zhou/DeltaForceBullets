@@ -61,10 +61,19 @@ def fetch_github_file_with_history(owner, repo, filepath, output_dir,
             with open(history_file, 'r', encoding='utf-8') as f:
                 existing_commits = json.load(f)
             if existing_commits:
-                last_known_commit_sha = existing_commits[0]['sha']  # 最新的commit在列表开头
+                last_known_commit_sha = existing_commits[0]['sha']
                 print(f"最后一个已知的commit: {last_known_commit_sha[:8]}...")
+        except json.JSONDecodeError as e:  # 捕获特定JSON解析错误
+            print(f"历史文件解析失败: {str(e)}")
+            print("可能原因：文件损坏或不完整，将备份文件并重新获取完整历史")
+            # 备份损坏文件
+            backup_path = os.path.join(output_dir, "corrupted_history_backup.json")
+            os.rename(history_file, backup_path)
+            print(f"已备份损坏文件到: {backup_path}")
+            existing_commits = []
         except Exception as e:
             print(f"读取本地历史记录失败: {str(e)}，将重新获取完整历史")
+            existing_commits = []
 
     # 获取commit历史（增量获取）
     commits = []

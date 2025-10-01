@@ -1,0 +1,162 @@
+[
+  {
+    "name": ".45 ACP AP",
+    "price": 1575
+  },
+  {
+    "name": ".45 ACP FMJ",
+    "price": 536
+  },
+  {
+    "name": ".45 ACP RIP",
+    "price": 560
+  },
+  {
+    "name": "12.7x55mm PS12A",
+    "price": 764
+  },
+  {
+    "name": "12.7x55mm PS12B",
+    "price": 5863
+  },
+  {
+    "name": "12.7x55mm PD12双头弹",
+    "price": 3767
+  },
+  {
+    "name": "5.45x39mm BS",
+    "price": 3924
+  },
+  {
+    "name": "5.45x39mm BT",
+    "price": 1266
+  },
+  {
+    "name": "5.45x39mm PS",
+    "price": 489
+  },
+  {
+    "name": "5.56x45mm M995",
+    "price": 3627
+  },
+  {
+    "name": "5.56x45mm M855A1",
+    "price": 1581
+  },
+  {
+    "name": "5.7x28mm R37.F",
+    "price": 397
+  },
+  {
+    "name": "5.7x28mm SS190",
+    "price": 4507
+  },
+  {
+    "name": "5.7x28mm SS193",
+    "price": 1773
+  },
+  {
+    "name": "5.7x28mm L191",
+    "price": 480
+  },
+  {
+    "name": "5.8x42mm DBP10",
+    "price": 1988
+  },
+  {
+    "name": "5.8x42mm DVP88",
+    "price": 343
+  },
+  {
+    "name": "5.8x42mm DVC12",
+    "price": 4375
+  },
+  {
+    "name": "6.8x51mm FMJ",
+    "price": 1844
+  },
+  {
+    "name": "6.8x51mm Hybrid",
+    "price": 5074
+  },
+  {
+    "name": "7.62x39mm PS",
+    "price": 401
+  },
+  {
+    "name": "7.62x39mm AP",
+    "price": 3021
+  },
+  {
+    "name": "7.62x39mm BP",
+    "price": 1401
+  },
+  {
+    "name": "7.62x51mm M80",
+    "price": 1858
+  },
+  {
+    "name": "7.62x51mm BPZ",
+    "price": 608
+  },
+  {
+    "name": "7.62x51mm M62",
+    "price": 5067
+  },
+  {
+    "name": "7.62x54R BT",
+    "price": 3574
+  },
+  {
+    "name": "7.62x54R LPS",
+    "price": 1810
+  },
+  {
+    "name": "7.62x54R T46M",
+    "price": 602
+  },
+  {
+    "name": "9x19mm PBP",
+    "price": 1516
+  },
+  {
+    "name": "9x19mm AP6.3",
+    "price": 441
+  },
+  {
+    "name": "9x19mm RIP",
+    "price": 498
+  },
+  {
+    "name": "9x39mm SP5",
+    "price": 644
+  },
+  {
+    "name": "9x39mm BP",
+    "price": 4614
+  },
+  {
+    "name": "9x39mm SP6",
+    "price": 1921
+  },
+  {
+    "name": "4.6x30mm AP SX",
+    "price": 3667
+  },
+  {
+    "name": "4.6x30mm FMJ SX",
+    "price": 1570
+  },
+  {
+    "name": "4.6x30mm Subsonic SX",
+    "price": 462
+  },
+  {
+    "name": "5.56x45mm M855",
+    "price": 481
+  },
+  {
+    "name": "12.7x55mm PS12",
+    "price": 3132
+  }
+]

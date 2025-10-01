@@ -361,28 +361,31 @@ def classify_bullet_data():
 
                 processed_count = process_files_by_date(missing_classify_dates)
 
-                if processed_count > 0:
-                    print(f"✓ 子弹分类完成，处理了 {processed_count} 个文件")
+                if processed_count >= 0:  # 修改判断逻辑，0个文件也视为成功
+                    if processed_count > 0:
+                        print(f"✓ 子弹分类完成，处理了 {processed_count} 个文件")
+                        
+                        # 将昨天之前的数据标记为已分类 - 使用与缓存文件一致的数据结构
+                        updated_count = 0
+                        for date_str in missing_classify_dates:
+                            if datetime.strptime(date_str, "%Y-%m-%d").date() <= yesterday:
+                                # 直接更新缓存数据
+                                if date_str not in cache_manager.cache_data:
+                                    cache_manager.cache_data[date_str] = {}
 
-                    # 将昨天之前的数据标记为已分类 - 使用与缓存文件一致的数据结构
-                    updated_count = 0
-                    for date_str in missing_classify_dates:
-                        if datetime.strptime(date_str, "%Y-%m-%d").date() <= yesterday:
-                            # 直接更新缓存数据
-                            if date_str not in cache_manager.cache_data:
-                                cache_manager.cache_data[date_str] = {}
+                                cache_manager.cache_data[date_str]["classification_complete"] = True
+                                cache_manager.cache_data[date_str]["last_updated"] = datetime.now().strftime(
+                                    "%Y-%m-%d %H:%M:%S")
+                                updated_count += 1
 
-                            cache_manager.cache_data[date_str]["classification_complete"] = True
-                            cache_manager.cache_data[date_str]["last_updated"] = datetime.now().strftime(
-                                "%Y-%m-%d %H:%M:%S")
-                            updated_count += 1
-
-                    # 保存缓存
-                    cache_manager._save_cache()
-                    print(f"✓ 已将 {updated_count} 个日期的分类状态置为 True")
+                        # 保存缓存
+                        cache_manager._save_cache()
+                        print(f"✓ 已将 {updated_count} 个日期的分类状态置为 True")
+                    else:
+                        print("✓ 没有文件需要处理，分类状态正常")
                     return True
                 else:
-                    print("✗ 没有文件被处理，分类失败")
+                    print("✗ 子弹分类失败")
                     return False
 
             except Exception as e:

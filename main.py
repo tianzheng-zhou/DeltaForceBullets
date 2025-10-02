@@ -383,14 +383,14 @@ def classify_bullet_data():
                         print(f"✓ 已将 {updated_count} 个日期的分类状态置为 True")
                     else:
                         print("✓ 没有文件需要处理，分类状态正常")
-                    return True
+                    # 删除这里的 return True，让程序继续执行今天数据的处理
                 else:
                     print("✗ 子弹分类失败")
-                    return False
+                    # 删除这里的 return False，让程序继续执行今天数据的处理
 
             except Exception as e:
                 print(f"✗ 子弹分类失败: {e}")
-                return False
+                # 删除这里的 return False，让程序继续执行今天数据的处理
         else:
             print("✓ 所有历史数据已分类完成，跳过")
 

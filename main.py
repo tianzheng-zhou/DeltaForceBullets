@@ -188,56 +188,57 @@ def filter_price_data():
 
                     if not json_files:
                         print("未找到任何可用的数据文件")
-                        return False
-
-                    # 按时间排序，获取最新的文件
-                    json_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
-                    latest_file = json_files[0] if json_files else None
-
-                    if latest_file:
-                        print(f"使用最新数据文件: {os.path.basename(latest_file)}")
-                        json_files = [latest_file]
+                        # 不要提前返回，让程序继续执行今天数据的处理
+                        pass
                     else:
-                        print("未找到任何可用的数据文件")
-                        return False
+                        # 按时间排序，获取最新的文件
+                        json_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+                        latest_file = json_files[0] if json_files else None
 
-                print(f"找到 {len(json_files)} 个符合条件的文件")
+                        if latest_file:
+                            print(f"使用最新数据文件: {os.path.basename(latest_file)}")
+                            json_files = [latest_file]
+                        else:
+                            print("未找到任何可用的数据文件")
+                            # 不要提前返回，让程序继续执行今天数据的处理
+                            pass
 
-                # 使用read_json_files函数读取文件内容
-                file_contents = read_json_files(json_files)
+                if json_files:
+                    print(f"找到 {len(json_files)} 个符合条件的文件")
 
-                # 定义黑名单和白名单（与删减json文件.py中一致）
-                name_blacklist = [
-                    "93R", ".357 Magnum JHP", ".357 Magnum HP", ".357 Magnum FMJ",
-                    ".45 ACP JHP", ".45 ACP HS", ".50 AE FMJ", ".50 AE JHP",
-                    ".50 AE HP", "5.45x39mm PRS", "5.45x39mm T", "5.56x45mm FMJ",
-                    "5.56x45mm RRLP", "5.7x28mm SS197SR", "5.7x28mm SS198LF",
-                    "5.8x42mm DBP87", "7.62x39mm T45M", "7.62x39mm LP",
-                    "7.62x51mm Ultra Nosler", "9x19mm Pst", "9x19mm PSO",
-                    "45-70 Govt FTX", "45-70 Govt FMJ", "45-70 Govt RN"
-                ]
+                    # 使用read_json_files函数读取文件内容
+                    file_contents = read_json_files(json_files)
 
-                name_whitelist = ["12.7x55mm PD12双头弹"]
+                    # 定义黑名单和白名单（与删减json文件.py中一致）
+                    name_blacklist = [
+                        "93R", ".357 Magnum JHP", ".357 Magnum HP", ".357 Magnum FMJ",
+                        ".45 ACP JHP", ".45 ACP HS", ".50 AE FMJ", ".50 AE JHP",
+                        ".50 AE HP", "5.45x39mm PRS", "5.45x39mm T", "5.56x45mm FMJ",
+                        "5.56x45mm RRLP", "5.7x28mm SS197SR", "5.7x28mm SS198LF",
+                        "5.8x42mm DBP87", "7.62x39mm T45M", "7.62x39mm LP",
+                        "7.62x51mm Ultra Nosler", "9x19mm Pst", "9x19mm PSO",
+                        "45-70 Govt FTX", "45-70 Govt FMJ", "45-70 Govt RN"
+                    ]
 
-                # 使用filter_and_save_json函数筛选并保存
-                saved_count = filter_and_save_json(
-                    file_contents,
-                    "filtered_price_history",
-                    blacklist_names=name_blacklist,
-                    whitelist_names=name_whitelist
-                )
+                    name_whitelist = ["12.7x55mm PD12双头弹"]
 
-                print(f"✓ 筛选完成，保存了 {saved_count} 个文件")
+                    # 使用filter_and_save_json函数筛选并保存
+                    saved_count = filter_and_save_json(
+                        file_contents,
+                        "filtered_price_history",
+                        blacklist_names=name_blacklist,
+                        whitelist_names=name_whitelist
+                    )
 
-                # 将昨天之前的数据标记为已筛选
-                updated_count = cache_manager.mark_range_as_filtered(target_start_date, target_end_date)
-                print(f"✓ 已将 {updated_count} 个日期的筛选状态置为 True")
+                    print(f"✓ 筛选完成，保存了 {saved_count} 个文件")
 
-                return saved_count > 0
+                    # 将昨天之前的数据标记为已筛选
+                    updated_count = cache_manager.mark_range_as_filtered(target_start_date, target_end_date)
+                    print(f"✓ 已将 {updated_count} 个日期的筛选状态置为 True")
 
             except Exception as e:
                 print(f"✗ 筛选数据失败: {e}")
-                return False
+                # 不要提前返回，让程序继续执行今天数据的处理
 
     # 筛选今天的数据（保持筛选状态为 False）
     print(f"\n筛选今天的数据: {today}")
@@ -364,7 +365,7 @@ def classify_bullet_data():
                 if processed_count >= 0:  # 修改判断逻辑，0个文件也视为成功
                     if processed_count > 0:
                         print(f"✓ 子弹分类完成，处理了 {processed_count} 个文件")
-                        
+
                         # 将昨天之前的数据标记为已分类 - 使用与缓存文件一致的数据结构
                         updated_count = 0
                         for date_str in missing_classify_dates:
@@ -383,14 +384,14 @@ def classify_bullet_data():
                         print(f"✓ 已将 {updated_count} 个日期的分类状态置为 True")
                     else:
                         print("✓ 没有文件需要处理，分类状态正常")
-                    # 删除这里的 return True，让程序继续执行今天数据的处理
+                    # 不要提前返回，让程序继续执行今天数据的处理
                 else:
                     print("✗ 子弹分类失败")
-                    # 删除这里的 return False，让程序继续执行今天数据的处理
+                    # 不要提前返回，让程序继续执行今天数据的处理
 
             except Exception as e:
                 print(f"✗ 子弹分类失败: {e}")
-                # 删除这里的 return False，让程序继续执行今天数据的处理
+                # 不要提前返回，让程序继续执行今天数据的处理
         else:
             print("✓ 所有历史数据已分类完成，跳过")
 

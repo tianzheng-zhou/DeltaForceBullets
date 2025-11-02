@@ -292,6 +292,40 @@ def process_date(date_str):
             return self._save_cache()
         return False
 
+    def delete_date_range_cache(self, start_date: str, end_date: str) -> int:
+        """删除日期范围内的所有缓存
+        
+        Args:
+            start_date: 开始日期 (YYYY-MM-DD)
+            end_date: 结束日期 (YYYY-MM-DD)
+            
+        Returns:
+            int: 成功删除的日期数量
+        """
+        start = datetime.strptime(start_date, "%Y-%m-%d")
+        end = datetime.strptime(end_date, "%Y-%m-%d")
+        
+        deleted_count = 0
+        current_date = start
+        
+        while current_date <= end:
+            date_str = current_date.strftime("%Y-%m-%d")
+            if date_str in self.cache_data:
+                del self.cache_data[date_str]
+                deleted_count += 1
+            current_date += timedelta(days=1)
+        
+        if deleted_count > 0:
+            self._save_cache()
+        
+        return deleted_count
+
+    def get_date_cache_info(self, date_str: str) -> Dict:
+        """获取指定日期的缓存信息"""
+        if date_str in self.cache_data:
+            return self.cache_data[date_str].copy()
+        return {}
+
     def clear_cache(self) -> bool:
         """清空所有缓存"""
         self.cache_data = {}
